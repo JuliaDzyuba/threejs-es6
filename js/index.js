@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('shapesIds');
@@ -24,27 +25,30 @@ window.addEventListener('DOMContentLoaded', () => {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
+  const controls = new OrbitControls( camera, renderer.domElement );
+  controls.update();
+
   const createShape = (shapeType) => {
     if(shapeType === 'cube') {
-      console.log('shapeType', shapeType);
       const geometry = new THREE.BoxGeometry( 1, 1, 1 );
       const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
       shape = new THREE.Mesh( geometry, material );
       shape.position.z = -15;
+      console.dir('shape: ', shape);
       scene.add( shape );
+      console.log('scene: ', scene);
     }
     if(shapeType === 'sphere') {
-      console.log('shapeType', shapeType);
       const geometry = new THREE.SphereGeometry( 2, 32, 16 );
       const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
       shape = new THREE.Mesh( geometry, material );
+      
       shape.position.z = -15;
       shape.position.y = -5;
       shape.position.x = -5;
       scene.add( shape );
     }
     if(shapeType === 'pyramid') {
-      console.log('shapeType', shapeType);
       const geometry = new THREE.ConeGeometry( 2, 5, 8 );
       const material = new THREE.MeshBasicMaterial( {color: 0xa1ff00} );
       shape = new THREE.Mesh( geometry, material );
@@ -66,14 +70,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const closeElements = document.querySelectorAll('.closeBtn');
     closeElements.forEach(b => b.addEventListener('click', (e) => {
       const objectId = b.dataset.id;
-      var selectedObject = scene.getObjectById(objectId);
-      scene.remove(selectedObject);
+      remove(objectId);
     }));
   });
+
+  function remove (id) {
+    let selectedObject = scene.children.find(c => c.uuid === id);
+    scene.remove(selectedObject.uuid);
+    animate();
+  }
   
   
-  function animate() {     
+  function animate() {
     requestAnimationFrame( animate );
+    controls.update();
     renderer.render( scene, camera );
   }
   animate();
