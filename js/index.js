@@ -76,7 +76,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function remove (id) {
     let selectedObject = scene.children.find(c => c.uuid === id);
-    scene.remove(selectedObject.uuid);
+    selectedObject.removeFromParent();
     animate();
   }
   
