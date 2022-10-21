@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(29, 29, 29);
+  height: 100vh;
+  position: relative;
+}
+
+.selection {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+
+.shapeSize {
+  padding: 5px 10px;
+}
+
+.btn {
+  padding: 5px 10px;
+}
+
+#shapesIds {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 5px;
+  background-color: #fff;
+}
